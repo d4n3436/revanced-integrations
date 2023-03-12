@@ -1,6 +1,3 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,7 +5,7 @@ plugins {
 
 android {
     compileSdk = 33
-    buildToolsVersion = "33.0.1"
+    buildToolsVersion = "33.0.2"
     namespace = "app.revanced.integrations"
 
     defaultConfig {
@@ -22,13 +19,13 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         applicationVariants.all {
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
             outputs.all {
                 this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
 
@@ -47,7 +44,7 @@ android {
 
 dependencies {
     compileOnly(project(mapOf("path" to ":dummy")))
-    compileOnly("androidx.annotation:annotation:1.5.0")
+    compileOnly("androidx.annotation:annotation:1.6.0")
 }
 
 tasks.register("publish") { dependsOn("build") }
