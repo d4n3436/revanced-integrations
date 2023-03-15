@@ -321,7 +321,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
         reportPreference.setSummary(str("revanced_extended_issue_center_summary"));
         reportPreference.setOnPreferenceClickListener(pref -> {
             var intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://github.com/inotia00/ReVanced_Extended"));
+            intent.setData(Uri.parse("https://github.com/kitadai31/revanced-patches-android6-7"));
             pref.getContext().startActivity(intent);
             return false;
         });
