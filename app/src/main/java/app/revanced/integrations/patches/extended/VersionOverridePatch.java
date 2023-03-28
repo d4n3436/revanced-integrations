@@ -16,7 +16,7 @@ public class VersionOverridePatch {
         try {
             boolean isOldLayoutEnabled = SharedPrefHelper.getBoolean(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_enable_old_layout", false);
 
-            return isOldLayoutEnabled ? "17.28.35" : version;
+            return isOldLayoutEnabled ? "18.05.40" : version;
         } catch (Exception ex){
             LogHelper.printException(VersionOverridePatch.class, "Failed to getBoolean", ex);
             return version;
