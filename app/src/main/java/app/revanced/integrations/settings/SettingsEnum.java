@@ -58,6 +58,10 @@ public enum SettingsEnum {
     HIDE_SNACKBAR("revanced_hide_snackbar", false, ReturnType.BOOLEAN),
     ENABLE_PREMIUM_HEADER("revanced_override_premium_header", false, ReturnType.BOOLEAN, true),
 
+    //Experimental Flags
+    HIDE_SHORTS_PLAYER_PIVOT_BAR_TYPE_A("revanced_hide_shorts_player_pivot_bar_type_a", false, ReturnType.BOOLEAN),
+    HIDE_SHORTS_PLAYER_PIVOT_BAR_TYPE_B("revanced_hide_shorts_player_pivot_bar_type_b", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_shorts_pivot_bar"),
+
     ADREMOVER_MERCHANDISE("revanced_adremover_merchandise", true, ReturnType.BOOLEAN),
     ADREMOVER_BROWSE_STORE_BUTTON("revanced_adremover_browse_store_button", true, ReturnType.BOOLEAN),
     ADREMOVER_COMMUNITY_POSTS("revanced_adremover_community_posts", false, ReturnType.BOOLEAN),

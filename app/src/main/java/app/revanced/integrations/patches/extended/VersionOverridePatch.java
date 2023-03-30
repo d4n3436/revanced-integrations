@@ -14,9 +14,16 @@ public class VersionOverridePatch {
     public static String getVersionOverride(String version) {
 
         try {
-            boolean isOldLayoutEnabled = SharedPrefHelper.getBoolean(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_enable_old_layout", false);
+            boolean isNewLayoutEnabled = SharedPrefHelper.getBoolean(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_enable_old_layout", false);
+            boolean isOldShortsEnabled = SharedPrefHelper.getBoolean(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_hide_shorts_player_pivot_bar_type_b", false);
 
-            return isOldLayoutEnabled ? "18.05.40" : version;
+            if (isNewLayoutEnabled) {
+                return "18.05.40";
+            } else if (isOldShortsEnabled) {
+                return "17.03.38";
+            } else {
+                return version;
+            }
         } catch (Exception ex){
             LogHelper.printException(VersionOverridePatch.class, "Failed to getBoolean", ex);
             return version;
