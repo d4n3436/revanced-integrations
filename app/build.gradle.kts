@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "app.revanced.integrations"
-        minSdk = 26
+        minSdk = 23
         targetSdk = 33
         multiDexEnabled = false
         versionName = project.version as String
