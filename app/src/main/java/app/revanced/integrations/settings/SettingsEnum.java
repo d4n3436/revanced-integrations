@@ -33,8 +33,7 @@ public enum SettingsEnum {
     ENABLE_SWIPE_BRIGHTNESS_HDR("revanced_enable_swipe_brightness_in_hdr", false, ReturnType.BOOLEAN, true),
     ENABLE_SAVE_BRIGHTNESS("revanced_enable_save_brightness", false, ReturnType.BOOLEAN, true),
     SWIPE_BRIGHTNESS_VALUE("revanced_swipe_brightness_value", 50f, ReturnType.FLOAT),
-    ENABLE_PROTOBUF_SPOOF("revanced_enable_protobuf_spoof", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_protobuf"),
-    SPOOFING_TYPE("revanced_spoofing_type", false, ReturnType.BOOLEAN),
+    ENABLE_PROTOBUF_SPOOF("revanced_enable_protobuf_spoof", false, ReturnType.BOOLEAN, true),
 
     // Layout settings (General)
     HIDE_STORIES_SHELF("revanced_hide_stories_shelf", true, ReturnType.BOOLEAN, true),
