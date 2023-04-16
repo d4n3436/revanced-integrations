@@ -2,8 +2,10 @@ package app.revanced.integrations.patches.utils;
 
 import static app.revanced.integrations.utils.StringRef.str;
 
+import android.content.ContentProviderClient;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.widget.Toast;
 
 import java.util.Objects;
@@ -27,9 +29,22 @@ public class MicroGPatch {
             System.exit(0);
         }
 
-        try (var client = context.getContentResolver().acquireContentProviderClient(VANCED_MICROG_PROVIDER)) {
-            if (client != null) return;
-            Toast.makeText(context, str("microg_not_running_warning"), Toast.LENGTH_LONG).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // try-with-resources calls ContentProviderClient.close(), which requires API level 24
+            try (var client = context.getContentResolver().acquireContentProviderClient(VANCED_MICROG_PROVIDER)) {
+                if (client != null) return;
+                Toast.makeText(context, str("microg_not_running_warning"), Toast.LENGTH_LONG).show();
+            }
+
+        } else {
+            ContentProviderClient client = null;
+            try {
+                client = context.getContentResolver().acquireContentProviderClient(VANCED_MICROG_PROVIDER);
+                if (client != null) return;
+                Toast.makeText(context, str("microg_not_running_warning"), Toast.LENGTH_LONG).show();
+            } finally {
+                if (client != null) client.release();
+            }
         }
     }
 }

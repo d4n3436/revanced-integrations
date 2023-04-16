@@ -469,15 +469,20 @@ public class ReturnYouTubeDislike {
 
     static String formatDislikeCount(long dislikeCount) {
         synchronized (ReturnYouTubeDislike.class) { // number formatter is not thread safe, must synchronize
-            if (dislikeCountFormatter == null) {
-                // Note: Java number formatters will use the locale specific number characters.
-                // such as Arabic which formats "1.2" into "???"
-                // But YouTube disregards locale specific number characters
-                // and instead shows english number characters everywhere.
-                Locale locale = ReVancedUtils.getContext().getResources().getConfiguration().locale;
-                dislikeCountFormatter = CompactDecimalFormat.getInstance(locale, CompactDecimalFormat.CompactStyle.SHORT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (dislikeCountFormatter == null) {
+                    // Note: Java number formatters will use the locale specific number characters.
+                    // such as Arabic which formats "1.2" into "???"
+                    // But YouTube disregards locale specific number characters
+                    // and instead shows english number characters everywhere.
+                    Locale locale = ReVancedUtils.getContext().getResources().getConfiguration().locale;
+                    dislikeCountFormatter = CompactDecimalFormat.getInstance(locale, CompactDecimalFormat.CompactStyle.SHORT);
+                }
+                return dislikeCountFormatter.format(dislikeCount);
+            } else {
+                // Couldn't format dislikes, using the unformatted count dislikeCount
+                return String.valueOf(dislikeCount);
             }
-            return dislikeCountFormatter.format(dislikeCount);
         }
     }
 
