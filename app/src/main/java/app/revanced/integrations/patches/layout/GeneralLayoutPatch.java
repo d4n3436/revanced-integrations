@@ -69,7 +69,7 @@ public class GeneralLayoutPatch {
     }
 
     public static void hideShortsPlayerPivotBar() {
-        if (SettingsEnum.HIDE_SHORTS_PLAYER_PIVOT_BAR_TYPE_A.getBoolean() && shortsContext != null) {
+        if (SettingsEnum.HIDE_SHORTS_PLAYER_PIVOT_BAR.getBoolean() && shortsContext != null) {
             Objects.requireNonNull(pivotbar).setVisibility(View.GONE);
             // pivotbarを消すとShortsプレーヤーがナビゲーションバーの裏側に描画されてしまうため、ナビゲーションバーを透明にする
             ((Activity) pivotbar.getContext()).getWindow().setNavigationBarColor(Color.parseColor("#00000000"));
