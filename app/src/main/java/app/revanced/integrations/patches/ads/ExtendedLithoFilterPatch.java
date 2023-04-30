@@ -20,7 +20,10 @@ public class ExtendedLithoFilterPatch {
     private static final int excludedBlockingListSize = excludedBlockingList.size() - 1;
 
     public static boolean InflatedLithoView(String value, ByteBuffer buffer) {
-        if (value == null || value.isEmpty() || whiteList.contains(value)) return false;
+        if (value == null || value.isEmpty()) return false;
+        for (String whiteListItem : whiteList) {
+            if (value.contains(whiteListItem)) return false;
+        }
 
         List<byte[]> actionButtonsBlockList = new ArrayList<>();
         List<byte[]> menuItemBlockList = new ArrayList<>();
@@ -172,7 +175,12 @@ public class ExtendedLithoFilterPatch {
             }
         }
 
-        return generalBlockList.contains(value) || count > 0;
+        if (count > 0) return true;
+        for (String blockItem : generalBlockList) {
+            if (value.contains(blockItem)) return true;
+        }
+
+        return false;
     }
 
     private static boolean containsAnyString(String value) {
