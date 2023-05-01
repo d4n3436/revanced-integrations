@@ -74,7 +74,9 @@ public class ProtobufSpoofPatch {
 
             SettingsEnum.ENABLE_PROTOBUF_SPOOF.saveValue(true);
             saveBoolean(context, YOUTUBE, PREFERENCE_KEY, true);
-            runOnMainThread(() -> Toast.makeText(context, str("revanced_protobuf_spoof_notice"), Toast.LENGTH_SHORT).show());
+            runOnMainThread(() -> Toast.makeText(context, str("revanced_protobuf_spoof_notice"), Toast.LENGTH_LONG).show());
+            // On 17.34.36, automatic spoofing is not reflected until reopen the video.
+            // Therefore, toast length was changed to LENGTH_LONG to let users know that.
 
         } catch (Exception ex) {
             LogHelper.printException(ProtobufSpoofPatch.class, "onResponse failure", ex);
