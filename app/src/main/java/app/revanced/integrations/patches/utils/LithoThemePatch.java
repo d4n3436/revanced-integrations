@@ -4,6 +4,7 @@ import static app.revanced.integrations.utils.ReVancedUtils.getContext;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import androidx.core.content.ContextCompat;
 
 public class LithoThemePatch {
     private static final int[] WHITE_VALUES = {
@@ -50,7 +51,7 @@ public class LithoThemePatch {
     private static int getColor(String name) {
         Context context = getContext();
 
-        return context != null ? context.getColor(context.getResources()
+        return context != null ? ContextCompat.getColor(context, context.getResources()
                 .getIdentifier(name, "color", context.getPackageName())
         ) : 0;
     }

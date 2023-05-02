@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.core.content.ContextCompat;
 import app.revanced.integrations.sponsorblock.PlayerController;
 
 public class SkipSponsorButton extends FrameLayout {
@@ -101,7 +101,7 @@ public class SkipSponsorButton extends FrameLayout {
 
 
     public static int getColor(Context context, int arg3) {
-        return context.getColor(arg3);
+        return ContextCompat.getColor(context, arg3);
     }
 
     @SuppressLint("DiscouragedApi")

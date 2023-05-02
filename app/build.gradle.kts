@@ -10,9 +10,9 @@ android {
 
     defaultConfig {
         applicationId = "app.revanced.integrations"
-        minSdk = 23
+        minSdk = 21
         targetSdk = 33
-        multiDexEnabled = false
+        multiDexEnabled = true
         versionName = project.version as String
     }
 
@@ -34,6 +34,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility(JavaVersion.VERSION_11)
         targetCompatibility(JavaVersion.VERSION_11)
     }
@@ -43,8 +44,11 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.0.0")
     compileOnly(project(mapOf("path" to ":dummy")))
-    compileOnly("androidx.annotation:annotation:1.6.0")
+    compileOnly("androidx.annotation:annotation:1.0.0")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
 }
 
 tasks.register("publish") { dependsOn("build") }

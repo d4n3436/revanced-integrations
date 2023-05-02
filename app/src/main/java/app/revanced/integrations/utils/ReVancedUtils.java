@@ -104,7 +104,7 @@ public class ReVancedUtils {
      * @return if the calling thread is on the main thread
      */
     public static boolean currentlyIsOnMainThread() {
-        return Looper.getMainLooper().isCurrentThread();
+        return Thread.currentThread() == Looper.getMainLooper().getThread();
     }
 
     /**
