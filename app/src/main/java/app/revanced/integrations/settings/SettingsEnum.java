@@ -169,7 +169,7 @@ public enum SettingsEnum {
     SB_WHITELIST("revanced_whitelisting_sponsorblock", false, ReturnType.BOOLEAN),
 
     //Experimental Flags
-    APP_VERSION_TO_SPOOF("revanced_enable_old_layout", "", ReturnType.STRING),
+    SPOOF_APP_VERSION_TARGET("revanced_spoof_app_version_target", "", ReturnType.STRING, true),
     ENABLE_TABLET_LAYOUT("revanced_enable_tablet_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_tablet"),
     ENABLE_PHONE_LAYOUT("revanced_enable_phone_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_phone"),
     ENABLE_VP9_CODEC("revanced_enable_vp9_codec", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_vp9"),

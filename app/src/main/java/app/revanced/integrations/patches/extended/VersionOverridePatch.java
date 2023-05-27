@@ -14,7 +14,7 @@ public class VersionOverridePatch {
     public static String getVersionOverride(String version) {
 
         try {
-            String versionToSpoof = SharedPrefHelper.getString(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_version_number_to_spoof", "");
+            String versionToSpoof = SharedPrefHelper.getString(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_spoof_app_version_target", "");
 
             if (!versionToSpoof.isEmpty()) {
                 return versionToSpoof;
