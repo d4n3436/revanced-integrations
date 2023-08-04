@@ -60,6 +60,10 @@ public class FirstRun {
                 .setNegativeButton(str("sign_in_cancel"), null)
                 .setCancelable(false)
                 .show();
+
+        // Disable spoof player parameter if root version
+        if ("com.google.android.youtube".equals(context.getPackageName()))
+            SettingsEnum.SPOOF_PLAYER_PARAMETER.saveValue(false);
     }
 
 }

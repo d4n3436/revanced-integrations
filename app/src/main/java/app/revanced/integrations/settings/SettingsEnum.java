@@ -33,7 +33,6 @@ public enum SettingsEnum {
     ENABLE_SWIPE_BRIGHTNESS_HDR("revanced_enable_swipe_brightness_in_hdr", false, ReturnType.BOOLEAN, true),
     ENABLE_SAVE_BRIGHTNESS("revanced_enable_save_brightness", false, ReturnType.BOOLEAN, true),
     SWIPE_BRIGHTNESS_VALUE("revanced_swipe_brightness_value", 50f, ReturnType.FLOAT),
-    ENABLE_PROTOBUF_SPOOF("revanced_enable_protobuf_spoof", false, ReturnType.BOOLEAN, true),
 
     // Layout settings (General)
     HIDE_STORIES_SHELF("revanced_hide_stories_shelf", true, ReturnType.BOOLEAN, true),
@@ -169,10 +168,12 @@ public enum SettingsEnum {
     SB_WHITELIST("revanced_whitelisting_sponsorblock", false, ReturnType.BOOLEAN),
 
     //Experimental Flags
-    SPOOF_APP_VERSION_TARGET("revanced_spoof_app_version_target", "", ReturnType.STRING, true),
     ENABLE_TABLET_LAYOUT("revanced_enable_tablet_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_tablet"),
     ENABLE_PHONE_LAYOUT("revanced_enable_phone_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_phone"),
     ENABLE_VP9_CODEC("revanced_enable_vp9_codec", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_vp9"),
+    SPOOF_APP_VERSION_TARGET("revanced_spoof_app_version_target", "", ReturnType.STRING, true),
+    SPOOF_PLAYER_PARAMETER("revanced_spoof_player_parameter", true, ReturnType.BOOLEAN, true),
+    SPOOF_PLAYER_PARAMETER_TYPE("revanced_spoof_player_parameter_type", true, ReturnType.BOOLEAN, true),
 
     //RYD Settings
     RYD_USER_ID("ryd_userId", null, SharedPrefHelper.SharedPrefNames.RYD, ReturnType.STRING),
