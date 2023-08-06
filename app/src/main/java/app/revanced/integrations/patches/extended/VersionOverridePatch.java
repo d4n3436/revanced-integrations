@@ -14,13 +14,10 @@ public class VersionOverridePatch {
     public static String getVersionOverride(String version) {
 
         try {
-            boolean isNewLayoutEnabled = SharedPrefHelper.getBoolean(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_enable_old_layout", false);
-            boolean isOldShortsEnabled = SharedPrefHelper.getBoolean(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_hide_shorts_player_pivot_bar_type_b", false);
+            String versionToSpoof = SharedPrefHelper.getString(context, SharedPrefHelper.SharedPrefNames.REVANCED, "revanced_spoof_app_version_target", "");
 
-            if (isNewLayoutEnabled) {
-                return "18.05.40";
-            } else if (isOldShortsEnabled) {
-                return "17.03.38";
+            if (!versionToSpoof.isEmpty()) {
+                return versionToSpoof;
             } else {
                 return version;
             }

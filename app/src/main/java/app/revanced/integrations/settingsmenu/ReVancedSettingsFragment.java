@@ -174,6 +174,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             setVideoQuality(false);
 
             setPatchesInfomation();
+            setSpoofAppVersionInfo();
 
             for (int i = 0; i < DownloaderNameList.length ; i++) {
                 int index = i;
@@ -360,6 +361,13 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             var intent = new Intent(Intent.ACTION_VIEW, uri);
             activity.startActivity(intent);
         });
+    }
+
+    public void setSpoofAppVersionInfo() {
+        findPreferenceOnScreen("revanced_spoof_app_version_info")
+                .setIntent(
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kitadai31/revanced-patches-android6-7/wiki/Spoof-app-version-information"))
+                );
     }
 
     public static void reboot(Activity activity) {
