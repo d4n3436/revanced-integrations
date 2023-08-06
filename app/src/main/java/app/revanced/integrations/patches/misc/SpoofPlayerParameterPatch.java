@@ -184,7 +184,8 @@ public class SpoofPlayerParameterPatch {
      * Injection point.
      */
     public static boolean getSeekbarThumbnailOverrideValue() {
-        return SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() && SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean();
+        // Crashes the app if true
+        return false;
     }
 
     /**
