@@ -12,7 +12,6 @@ public enum SettingsEnum {
     // Ad settings
     HIDE_VIDEO_ADS("revanced_video_ads_removal", true, ReturnType.BOOLEAN, true),
     ADREMOVER_GENERAL_ADS("revanced_adremover_general_ads", true, ReturnType.BOOLEAN),
-    ADREMOVER_BUTTON_ADS("revanced_adremover_button_ads", true, ReturnType.BOOLEAN),
     ADREMOVER_PAID_CONTENT("revanced_adremover_paid_content", true, ReturnType.BOOLEAN),
     ADREMOVER_SELF_SPONSOR("revanced_adremover_self_sponsor", true, ReturnType.BOOLEAN),
     ADREMOVER_USER_FILTER("revanced_adremover_user_filter", false, ReturnType.BOOLEAN),
