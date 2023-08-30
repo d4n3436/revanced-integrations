@@ -29,6 +29,10 @@ public class FullscreenLayoutPatch {
         return SettingsEnum.HIDE_FILMSTRIP_OVERLAY.getBoolean();
     }
 
+    public static boolean disableLandScapeMode(boolean original) {
+        return SettingsEnum.DISABLE_LANDSCAPE_MODE.getBoolean() || original;
+    }
+
     public static boolean disableSeekVibrate() {
         return SettingsEnum.DISABLE_HAPTIC_FEEDBACK_SEEK.getBoolean();
     }
@@ -41,7 +45,7 @@ public class FullscreenLayoutPatch {
         return SettingsEnum.DISABLE_HAPTIC_FEEDBACK_CHAPTERS.getBoolean();
     }
 
-    public static boolean disableZoomVibrate() {
-        return SettingsEnum.DISABLE_HAPTIC_FEEDBACK_ZOOM.getBoolean();
-    }
+//    public static boolean disableZoomVibrate() {
+//        return SettingsEnum.DISABLE_HAPTIC_FEEDBACK_ZOOM.getBoolean();
+//    }
 }

@@ -102,6 +102,7 @@ public enum SettingsEnum {
     DISABLE_HAPTIC_FEEDBACK_SCRUBBING("revanced_disable_haptic_feedback_scrubbing", false, ReturnType.BOOLEAN),
     DISABLE_HAPTIC_FEEDBACK_CHAPTERS("revanced_disable_haptic_feedback_chapters", false, ReturnType.BOOLEAN),
     DISABLE_HAPTIC_FEEDBACK_ZOOM("revanced_disable_haptic_feedback_zoom", false, ReturnType.BOOLEAN),
+    DISABLE_LANDSCAPE_MODE("revanced_disable_landscape_mode", false, ReturnType.BOOLEAN, true),
 
     // Layout settings (Buttom Player)
     HIDE_LIKE_BUTTON("revanced_hide_button_like", false, ReturnType.BOOLEAN),
