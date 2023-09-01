@@ -15,7 +15,7 @@ public class CheckOsVersionPatch {
         Activity activity = (Activity) context;
         new AlertDialog.Builder(activity)
                 .setTitle(str("dialog_title_warning"))
-                .setMessage(str("revanced_newer_android_warning_body"))
+                .setMessage(str("revanced_newer_android_warning_body", Build.VERSION.RELEASE)) //%1$s
                 .setPositiveButton("OK", (dialog, id) -> activity.finish())
                 .setNeutralButton("Continue anyway", null)
                 .setCancelable(false)
