@@ -27,8 +27,6 @@ import app.revanced.integrations.patches.button.AutoRepeat;
 import app.revanced.integrations.patches.button.Copy;
 import app.revanced.integrations.patches.button.CopyWithTimeStamp;
 import app.revanced.integrations.patches.button.Download;
-import app.revanced.integrations.patches.button.Whitelists;
-import app.revanced.integrations.patches.utils.PatchStatus;
 import app.revanced.integrations.patches.video.VideoQualityPatch;
 import app.revanced.integrations.settings.SettingsEnum;
 import app.revanced.integrations.utils.LogHelper;
@@ -36,8 +34,6 @@ import app.revanced.integrations.utils.ReVancedHelper;
 import app.revanced.integrations.utils.ReVancedUtils;
 import app.revanced.integrations.utils.ResourceType;
 import app.revanced.integrations.utils.SharedPrefHelper;
-import app.revanced.integrations.whitelist.Whitelist;
-import app.revanced.integrations.whitelist.WhitelistType;
 
 public class ReVancedSettingsFragment extends PreferenceFragment {
     private List<PreferenceScreen> screens;
@@ -64,9 +60,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
                 SwitchPreference switchPref = (SwitchPreference) pref;
                 setting.setValue(switchPref.isChecked());
 
-                if (setting.equals(SettingsEnum.OVERLAY_BUTTON_WHITELIST)) {
-                    Whitelists.refreshVisibility();
-                } else if (setting.equals(SettingsEnum.OVERLAY_BUTTON_COPY)) {
+                if (setting.equals(SettingsEnum.OVERLAY_BUTTON_COPY)) {
                     Copy.refreshVisibility();
                 } else if (setting.equals(SettingsEnum.OVERLAY_BUTTON_COPY_WITH_TIMESTAMP)) {
                     CopyWithTimeStamp.refreshVisibility();
@@ -166,7 +160,6 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             this.whitelistingPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("whitelisting");
 
             AutoRepeatLinks();
-            AddWhitelistSettings();
             LayoutOverrideLinks();
 
             setVideoSpeed();
@@ -223,53 +216,6 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             AutoRepeat.isButtonEnabled = isAutoRepeatEnabled;
         } catch (Throwable th) {
             LogHelper.printException(ReVancedSettingsFragment.class, "Error setting AutoRepeatLinks" + th);
-        }
-    }
-
-    public void AddWhitelistSettings() {
-        try {
-            Activity activity = ReVancedSettingsFragment.this.getActivity();
-            boolean isIncludedSB = PatchStatus.Sponsorblock();
-            boolean isIncludedSPEED = PatchStatus.VideoSpeed();
-            boolean isIncludedADS = PatchStatus.VideoAds();
-
-            if (isIncludedSB || isIncludedSPEED || isIncludedADS) {
-                // Sponsorblock
-                if (isIncludedSB) {
-                    Whitelist.setEnabled(WhitelistType.SPONSORBLOCK, SettingsEnum.SB_WHITELIST.getBoolean());
-
-                    WhitelistedChannelsPreference WhitelistSB = new WhitelistedChannelsPreference(activity);
-                    WhitelistSB.setTitle(str("revanced_whitelisting_sponsorblock"));
-                    WhitelistSB.setWhitelistType(WhitelistType.SPONSORBLOCK);
-                    this.whitelistingPreferenceScreen.addPreference(WhitelistSB);
-                }
-
-                // Video Speed
-                if (isIncludedSPEED) {
-                    Whitelist.setEnabled(WhitelistType.SPEED, SettingsEnum.SPEED_WHITELIST.getBoolean());
-
-                    WhitelistedChannelsPreference WhitelistSPEED = new WhitelistedChannelsPreference(activity);
-                    WhitelistSPEED.setTitle(str("revanced_whitelisting_speed"));
-                    WhitelistSPEED.setWhitelistType(WhitelistType.SPEED);
-                    this.whitelistingPreferenceScreen.addPreference(WhitelistSPEED);
-                }
-
-                // Video Ads
-                if (isIncludedADS) {
-                    Whitelist.setEnabled(WhitelistType.ADS, SettingsEnum.ADS_WHITELIST.getBoolean());
-
-                    WhitelistedChannelsPreference WhitelistADS = new WhitelistedChannelsPreference(activity);
-                    WhitelistADS.setTitle(str("revanced_whitelisting_ads"));
-                    WhitelistADS.setWhitelistType(WhitelistType.ADS);
-                    this.whitelistingPreferenceScreen.addPreference(WhitelistADS);
-                }
-            } else {
-                SwitchPreference setWhitelist = (SwitchPreference) findPreferenceOnScreen(SettingsEnum.OVERLAY_BUTTON_WHITELIST.getPath());
-                this.overlayPreferenceScreen.removePreference(setWhitelist);
-                this.overlayPreferenceScreen.removePreference(whitelistingPreferenceScreen);
-            }
-        } catch (Throwable th) {
-            LogHelper.printException(ReVancedSettingsFragment.class, "Error setting AddWhitelistSettings" + th);
         }
     }
 

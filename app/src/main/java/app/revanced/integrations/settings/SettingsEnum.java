@@ -151,7 +151,6 @@ public enum SettingsEnum {
     ENABLE_CUSTOM_VIDEO_SPEED("revanced_enable_custom_video_speed", false, ReturnType.BOOLEAN, true),
 
     //Overlaybutton Settings
-    OVERLAY_BUTTON_WHITELIST("revanced_overlay_button_whitelist", false, ReturnType.BOOLEAN),
     OVERLAY_BUTTON_COPY("revanced_overlay_button_copy_url", false, ReturnType.BOOLEAN),
     OVERLAY_BUTTON_COPY_WITH_TIMESTAMP("revanced_overlay_button_copy_url_with_timestamp", false, ReturnType.BOOLEAN),
     OVERLAY_BUTTON_AUTO_REPEAT("revanced_overlay_button_auto_repeat", false, ReturnType.BOOLEAN),
@@ -159,10 +158,6 @@ public enum SettingsEnum {
     //Download Settings
     OVERLAY_BUTTON_DOWNLOADS("revanced_overlay_button_downloads", true, ReturnType.BOOLEAN),
     DOWNLOADER_PACKAGE_NAME("revanced_downloader_package_name", null, ReturnType.STRING),
-    // Whitelist Settings
-    ADS_WHITELIST("revanced_whitelist_ads", false, ReturnType.BOOLEAN),
-    SPEED_WHITELIST("revanced_whitelist_speed", false, ReturnType.BOOLEAN),
-    SB_WHITELIST("revanced_whitelisting_sponsorblock", false, ReturnType.BOOLEAN),
 
     //Experimental Flags
     ENABLE_TABLET_LAYOUT("revanced_enable_tablet_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_tablet"),
