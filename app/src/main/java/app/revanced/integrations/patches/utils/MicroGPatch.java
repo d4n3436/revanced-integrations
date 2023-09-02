@@ -20,8 +20,7 @@ public class MicroGPatch {
         } catch (PackageManager.NameNotFoundException exception) {
             Toast.makeText(context, str("microg_not_installed_warning"), Toast.LENGTH_LONG).show();
             Toast.makeText(context, str("microg_not_installed_notice"), Toast.LENGTH_LONG).show();
-
-            System.exit(0);
+            return;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
