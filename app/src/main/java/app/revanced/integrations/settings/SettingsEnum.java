@@ -138,10 +138,6 @@ public enum SettingsEnum {
     ENABLE_SEEKBAR_TAPPING("revanced_enable_seekbar_tapping", true, ReturnType.BOOLEAN),
     HIDE_TIME_AND_SEEKBAR("revanced_hide_time_and_seekbar", false, ReturnType.BOOLEAN),
 
-    //Misc Settings
-    ENABLE_EXTERNAL_BROWSER("revanced_enable_external_browser", true, ReturnType.BOOLEAN, true),
-    ENABLE_OPEN_LINKS_DIRECTLY("revanced_enable_open_links_directly", true, ReturnType.BOOLEAN),
-
     //Video Settings
     DEFAULT_VIDEO_QUALITY_WIFI("revanced_default_video_quality_wifi", -2, ReturnType.INTEGER),
     DEFAULT_VIDEO_QUALITY_MOBILE("revanced_default_video_quality_mobile", -2, ReturnType.INTEGER),
@@ -158,7 +154,9 @@ public enum SettingsEnum {
     OVERLAY_BUTTON_DOWNLOADS("revanced_overlay_button_downloads", true, ReturnType.BOOLEAN),
     DOWNLOADER_PACKAGE_NAME("revanced_downloader_package_name", null, ReturnType.STRING),
 
-    //Experimental Flags
+    //Misc Settings
+    ENABLE_EXTERNAL_BROWSER("revanced_enable_external_browser", true, ReturnType.BOOLEAN, true),
+    ENABLE_OPEN_LINKS_DIRECTLY("revanced_enable_open_links_directly", true, ReturnType.BOOLEAN),
     ENABLE_TABLET_LAYOUT("revanced_enable_tablet_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_tablet"),
     ENABLE_PHONE_LAYOUT("revanced_enable_phone_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_phone"),
     ENABLE_VP9_CODEC("revanced_enable_vp9_codec", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_vp9"),

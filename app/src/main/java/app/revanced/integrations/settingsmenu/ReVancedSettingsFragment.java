@@ -40,9 +40,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
 
     private boolean Registered = false;
 
-    private PreferenceScreen overlayPreferenceScreen;
-    private PreferenceScreen extendedPreferenceScreen;
-    private PreferenceScreen whitelistingPreferenceScreen;
+    private PreferenceScreen miscPreferenceScreen;
 
     private final CharSequence[] videoSpeedEntries = {str("quality_auto"), "0.25x", "0.5x", "0.75x", str("shorts_speed_control_normal_label"), "1.25x", "1.5x", "1.75x", "2x"};
     private final CharSequence[] videoSpeedentryValues = {"-2.0", "0.25", "0.5", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0"};
@@ -155,9 +153,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             sharedPreferences.registerOnSharedPreferenceChangeListener(this.listener);
             this.Registered = true;
 
-            this.overlayPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("overlaybutton");
-            this.extendedPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("extended");
-            this.whitelistingPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("whitelisting");
+            this.miscPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("misc");
 
             AutoRepeatLinks();
             LayoutOverrideLinks();
@@ -272,7 +268,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             pref.getContext().startActivity(intent);
             return false;
         });
-        this.extendedPreferenceScreen.addPreference(reportPreference);
+        this.miscPreferenceScreen.addPreference(reportPreference);
 
         Preference integration = findPreferenceOnScreen("revanced-integrations");
         integration.setSummary(BuildConfig.VERSION_NAME);
