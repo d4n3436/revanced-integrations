@@ -72,19 +72,24 @@ public class SpoofPlayerParameterPatch {
      * @param originalValue originalValue player parameter
      */
     public static String overridePlayerParameter(String originalValue) {
-        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() || originalValue.startsWith(PLAYER_PARAMETER_SHORTS)) {
+        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean()
+                || originalValue.startsWith(PLAYER_PARAMETER_SHORTS)
+                || originalValue.contains(PLAYER_PARAMETER_INCOGNITO)) {
             return originalValue;
         }
 
-        final String playerParameter = SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean()
-                ? PLAYER_PARAMETER_INCOGNITO
-                : PLAYER_PARAMETER_SHORTS;
-
         boolean isPlayingFeed = containsAny(originalValue, PROTOBUF_PARAMETER_WHITELIST) && PlayerType.getCurrent() == PlayerType.INLINE_MINIMAL;
+        boolean spoofToIncognito = SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean();
 
-        return isPlayingFeed
-                ? PLAYER_PARAMETER_SCRIM + playerParameter  // autoplay in feed should not play a sound
-                : playerParameter;
+        if (spoofToIncognito && isPlayingFeed) {
+            return originalValue;  // autoplay in feed should not be recorded on watch history
+        } else if (spoofToIncognito) {
+            return PLAYER_PARAMETER_INCOGNITO;
+        } else if (isPlayingFeed) {
+            return PLAYER_PARAMETER_SCRIM + PLAYER_PARAMETER_SHORTS;  // autoplay in feed should not play a sound
+        } else {
+            return PLAYER_PARAMETER_SHORTS;
+        }
     }
 
 
