@@ -27,8 +27,6 @@ import app.revanced.integrations.patches.button.AutoRepeat;
 import app.revanced.integrations.patches.button.Copy;
 import app.revanced.integrations.patches.button.CopyWithTimeStamp;
 import app.revanced.integrations.patches.button.Download;
-import app.revanced.integrations.patches.button.Whitelists;
-import app.revanced.integrations.patches.utils.PatchStatus;
 import app.revanced.integrations.patches.video.VideoQualityPatch;
 import app.revanced.integrations.settings.SettingsEnum;
 import app.revanced.integrations.utils.LogHelper;
@@ -36,17 +34,13 @@ import app.revanced.integrations.utils.ReVancedHelper;
 import app.revanced.integrations.utils.ReVancedUtils;
 import app.revanced.integrations.utils.ResourceType;
 import app.revanced.integrations.utils.SharedPrefHelper;
-import app.revanced.integrations.whitelist.Whitelist;
-import app.revanced.integrations.whitelist.WhitelistType;
 
 public class ReVancedSettingsFragment extends PreferenceFragment {
     private List<PreferenceScreen> screens;
 
     private boolean Registered = false;
 
-    private PreferenceScreen overlayPreferenceScreen;
-    private PreferenceScreen extendedPreferenceScreen;
-    private PreferenceScreen whitelistingPreferenceScreen;
+    private PreferenceScreen miscPreferenceScreen;
 
     private final CharSequence[] videoSpeedEntries = {str("quality_auto"), "0.25x", "0.5x", "0.75x", str("shorts_speed_control_normal_label"), "1.25x", "1.5x", "1.75x", "2x"};
     private final CharSequence[] videoSpeedentryValues = {"-2.0", "0.25", "0.5", "0.75", "1.0", "1.25", "1.5", "1.75", "2.0"};
@@ -64,9 +58,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
                 SwitchPreference switchPref = (SwitchPreference) pref;
                 setting.setValue(switchPref.isChecked());
 
-                if (setting.equals(SettingsEnum.OVERLAY_BUTTON_WHITELIST)) {
-                    Whitelists.refreshVisibility();
-                } else if (setting.equals(SettingsEnum.OVERLAY_BUTTON_COPY)) {
+                if (setting.equals(SettingsEnum.OVERLAY_BUTTON_COPY)) {
                     Copy.refreshVisibility();
                 } else if (setting.equals(SettingsEnum.OVERLAY_BUTTON_COPY_WITH_TIMESTAMP)) {
                     CopyWithTimeStamp.refreshVisibility();
@@ -161,12 +153,9 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             sharedPreferences.registerOnSharedPreferenceChangeListener(this.listener);
             this.Registered = true;
 
-            this.overlayPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("overlaybutton");
-            this.extendedPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("extended");
-            this.whitelistingPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("whitelisting");
+            this.miscPreferenceScreen = (PreferenceScreen) getPreferenceScreen().findPreference("misc");
 
             AutoRepeatLinks();
-            AddWhitelistSettings();
             LayoutOverrideLinks();
 
             setVideoSpeed();
@@ -226,53 +215,6 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
         }
     }
 
-    public void AddWhitelistSettings() {
-        try {
-            Activity activity = ReVancedSettingsFragment.this.getActivity();
-            boolean isIncludedSB = PatchStatus.Sponsorblock();
-            boolean isIncludedSPEED = PatchStatus.VideoSpeed();
-            boolean isIncludedADS = PatchStatus.VideoAds();
-
-            if (isIncludedSB || isIncludedSPEED || isIncludedADS) {
-                // Sponsorblock
-                if (isIncludedSB) {
-                    Whitelist.setEnabled(WhitelistType.SPONSORBLOCK, SettingsEnum.SB_WHITELIST.getBoolean());
-
-                    WhitelistedChannelsPreference WhitelistSB = new WhitelistedChannelsPreference(activity);
-                    WhitelistSB.setTitle(str("revanced_whitelisting_sponsorblock"));
-                    WhitelistSB.setWhitelistType(WhitelistType.SPONSORBLOCK);
-                    this.whitelistingPreferenceScreen.addPreference(WhitelistSB);
-                }
-
-                // Video Speed
-                if (isIncludedSPEED) {
-                    Whitelist.setEnabled(WhitelistType.SPEED, SettingsEnum.SPEED_WHITELIST.getBoolean());
-
-                    WhitelistedChannelsPreference WhitelistSPEED = new WhitelistedChannelsPreference(activity);
-                    WhitelistSPEED.setTitle(str("revanced_whitelisting_speed"));
-                    WhitelistSPEED.setWhitelistType(WhitelistType.SPEED);
-                    this.whitelistingPreferenceScreen.addPreference(WhitelistSPEED);
-                }
-
-                // Video Ads
-                if (isIncludedADS) {
-                    Whitelist.setEnabled(WhitelistType.ADS, SettingsEnum.ADS_WHITELIST.getBoolean());
-
-                    WhitelistedChannelsPreference WhitelistADS = new WhitelistedChannelsPreference(activity);
-                    WhitelistADS.setTitle(str("revanced_whitelisting_ads"));
-                    WhitelistADS.setWhitelistType(WhitelistType.ADS);
-                    this.whitelistingPreferenceScreen.addPreference(WhitelistADS);
-                }
-            } else {
-                SwitchPreference setWhitelist = (SwitchPreference) findPreferenceOnScreen(SettingsEnum.OVERLAY_BUTTON_WHITELIST.getPath());
-                this.overlayPreferenceScreen.removePreference(setWhitelist);
-                this.overlayPreferenceScreen.removePreference(whitelistingPreferenceScreen);
-            }
-        } catch (Throwable th) {
-            LogHelper.printException(ReVancedSettingsFragment.class, "Error setting AddWhitelistSettings" + th);
-        }
-    }
-
     public void LayoutOverrideLinks() {
         try {
             SwitchPreference tabletLayoutSwitch = (SwitchPreference) findPreferenceOnScreen(SettingsEnum.ENABLE_TABLET_LAYOUT.getPath());
@@ -326,7 +268,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
             pref.getContext().startActivity(intent);
             return false;
         });
-        this.extendedPreferenceScreen.addPreference(reportPreference);
+        this.miscPreferenceScreen.addPreference(reportPreference);
 
         Preference integration = findPreferenceOnScreen("revanced-integrations");
         integration.setSummary(BuildConfig.VERSION_NAME);

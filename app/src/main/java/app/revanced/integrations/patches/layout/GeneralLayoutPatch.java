@@ -2,26 +2,15 @@ package app.revanced.integrations.patches.layout;
 
 import static app.revanced.integrations.utils.ResourceUtils.identifier;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
-
-import com.google.android.apps.youtube.app.ui.pivotbar.PivotBar;
-
-import java.util.Objects;
 
 import app.revanced.integrations.adremover.AdRemoverAPI;
 import app.revanced.integrations.settings.SettingsEnum;
 import app.revanced.integrations.utils.ResourceType;
 
 public class GeneralLayoutPatch {
-    @SuppressLint("StaticFieldLeak")
-    public static Context shortsContext;
     private static final String PREMIUM_HEADER_NAME = "ytPremiumWordmarkHeader";
     public static boolean captionsButtonStatus;
-    public static PivotBar pivotbar;
     public static Enum lastPivotTab;
 
     public static void hideStoriesShelf(View view) {
@@ -65,14 +54,6 @@ public class GeneralLayoutPatch {
     public static void hideShortsPlayerSubscriptionsButton(View view) {
         if (SettingsEnum.HIDE_SHORTS_PLAYER_PLAYER_SUBSCRIPTIONS_BUTTON.getBoolean()) {
             AdRemoverAPI.HideViewWithLayout1dp(view);
-        }
-    }
-
-    public static void hideShortsPlayerPivotBar() {
-        if (SettingsEnum.HIDE_SHORTS_PLAYER_PIVOT_BAR.getBoolean() && shortsContext != null) {
-            Objects.requireNonNull(pivotbar).setVisibility(View.GONE);
-            // pivotbarを消すとShortsプレーヤーがナビゲーションバーの裏側に描画されてしまうため、ナビゲーションバーを透明にする
-            ((Activity) pivotbar.getContext()).getWindow().setNavigationBarColor(Color.parseColor("#00000000"));
         }
     }
 

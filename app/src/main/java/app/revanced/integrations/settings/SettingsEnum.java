@@ -12,7 +12,6 @@ public enum SettingsEnum {
     // Ad settings
     HIDE_VIDEO_ADS("revanced_video_ads_removal", true, ReturnType.BOOLEAN, true),
     ADREMOVER_GENERAL_ADS("revanced_adremover_general_ads", true, ReturnType.BOOLEAN),
-    ADREMOVER_BUTTON_ADS("revanced_adremover_button_ads", true, ReturnType.BOOLEAN),
     ADREMOVER_PAID_CONTENT("revanced_adremover_paid_content", true, ReturnType.BOOLEAN),
     ADREMOVER_SELF_SPONSOR("revanced_adremover_self_sponsor", true, ReturnType.BOOLEAN),
     ADREMOVER_USER_FILTER("revanced_adremover_user_filter", false, ReturnType.BOOLEAN),
@@ -55,9 +54,6 @@ public enum SettingsEnum {
     HIDE_EMAIL_ADDRESS("revanced_hide_email_address", true, ReturnType.BOOLEAN, true),
     HIDE_SNACKBAR("revanced_hide_snackbar", false, ReturnType.BOOLEAN),
     ENABLE_PREMIUM_HEADER("revanced_override_premium_header", false, ReturnType.BOOLEAN, true),
-
-    //Experimental Flags
-    HIDE_SHORTS_PLAYER_PIVOT_BAR("revanced_hide_shorts_player_pivot_bar", false, ReturnType.BOOLEAN),
 
     ADREMOVER_MERCHANDISE("revanced_adremover_merchandise", true, ReturnType.BOOLEAN),
     ADREMOVER_BROWSE_STORE_BUTTON("revanced_adremover_browse_store_button", true, ReturnType.BOOLEAN),
@@ -106,6 +102,7 @@ public enum SettingsEnum {
     DISABLE_HAPTIC_FEEDBACK_SCRUBBING("revanced_disable_haptic_feedback_scrubbing", false, ReturnType.BOOLEAN),
     DISABLE_HAPTIC_FEEDBACK_CHAPTERS("revanced_disable_haptic_feedback_chapters", false, ReturnType.BOOLEAN),
     DISABLE_HAPTIC_FEEDBACK_ZOOM("revanced_disable_haptic_feedback_zoom", false, ReturnType.BOOLEAN),
+    DISABLE_LANDSCAPE_MODE("revanced_disable_landscape_mode", false, ReturnType.BOOLEAN, true),
 
     // Layout settings (Buttom Player)
     HIDE_LIKE_BUTTON("revanced_hide_button_like", false, ReturnType.BOOLEAN),
@@ -141,11 +138,6 @@ public enum SettingsEnum {
     ENABLE_SEEKBAR_TAPPING("revanced_enable_seekbar_tapping", true, ReturnType.BOOLEAN),
     HIDE_TIME_AND_SEEKBAR("revanced_hide_time_and_seekbar", false, ReturnType.BOOLEAN),
 
-    //Misc Settings
-    ENABLE_EXTERNAL_BROWSER("revanced_enable_external_browser", true, ReturnType.BOOLEAN, true),
-    ENABLE_OPEN_LINKS_DIRECTLY("revanced_enable_open_links_directly", true, ReturnType.BOOLEAN),
-    ENABLE_MINIMIZED_PLAYBACK("revanced_enable_minimized_playback", true, ReturnType.BOOLEAN),
-
     //Video Settings
     DEFAULT_VIDEO_QUALITY_WIFI("revanced_default_video_quality_wifi", -2, ReturnType.INTEGER),
     DEFAULT_VIDEO_QUALITY_MOBILE("revanced_default_video_quality_mobile", -2, ReturnType.INTEGER),
@@ -154,7 +146,6 @@ public enum SettingsEnum {
     ENABLE_CUSTOM_VIDEO_SPEED("revanced_enable_custom_video_speed", false, ReturnType.BOOLEAN, true),
 
     //Overlaybutton Settings
-    OVERLAY_BUTTON_WHITELIST("revanced_overlay_button_whitelist", false, ReturnType.BOOLEAN),
     OVERLAY_BUTTON_COPY("revanced_overlay_button_copy_url", false, ReturnType.BOOLEAN),
     OVERLAY_BUTTON_COPY_WITH_TIMESTAMP("revanced_overlay_button_copy_url_with_timestamp", false, ReturnType.BOOLEAN),
     OVERLAY_BUTTON_AUTO_REPEAT("revanced_overlay_button_auto_repeat", false, ReturnType.BOOLEAN),
@@ -162,12 +153,10 @@ public enum SettingsEnum {
     //Download Settings
     OVERLAY_BUTTON_DOWNLOADS("revanced_overlay_button_downloads", true, ReturnType.BOOLEAN),
     DOWNLOADER_PACKAGE_NAME("revanced_downloader_package_name", null, ReturnType.STRING),
-    // Whitelist Settings
-    ADS_WHITELIST("revanced_whitelist_ads", false, ReturnType.BOOLEAN),
-    SPEED_WHITELIST("revanced_whitelist_speed", false, ReturnType.BOOLEAN),
-    SB_WHITELIST("revanced_whitelisting_sponsorblock", false, ReturnType.BOOLEAN),
 
-    //Experimental Flags
+    //Misc Settings
+    ENABLE_EXTERNAL_BROWSER("revanced_enable_external_browser", true, ReturnType.BOOLEAN, true),
+    ENABLE_OPEN_LINKS_DIRECTLY("revanced_enable_open_links_directly", true, ReturnType.BOOLEAN),
     ENABLE_TABLET_LAYOUT("revanced_enable_tablet_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_tablet"),
     ENABLE_PHONE_LAYOUT("revanced_enable_phone_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_phone"),
     ENABLE_VP9_CODEC("revanced_enable_vp9_codec", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_vp9"),

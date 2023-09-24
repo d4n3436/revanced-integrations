@@ -8,9 +8,14 @@ import app.revanced.integrations.utils.ReVancedUtils;
 
 public final class GeneralAdsPatch extends Filter {
     private final String[] IGNORE = {
-            "home_video_with_context",
-            "related_video_with_context",
-            "library_recent_shelf"
+            "comment_thread", // skip blocking anything in the comments
+            "download_",
+            "downloads_",
+            "home_video_with_context", // Don't filter anything in the home page video component.
+            "library_recent_shelf",
+            "playlist_add",
+            "related_video_with_context", // Don't filter anything in the related video component.
+            "|comment." // skip blocking anything in the comments replies
     };
 
     private final BlockRule custom = new CustomBlockRule(
@@ -42,25 +47,38 @@ public final class GeneralAdsPatch extends Filter {
         var viewProducts = new BlockRule(SettingsEnum.ADREMOVER_VIEW_PRODUCTS, "product_item", "products_in_video");
         var webSearchPanel = new BlockRule(SettingsEnum.ADREMOVER_WEB_SEARCH_PANEL, "web_link_panel");
 
-        var buttonedAd = new BlockRule(SettingsEnum.ADREMOVER_BUTTON_ADS,
-                "video_display_full_buttoned_layout",
-                "_ad_with",
-                "landscape_image_wide_button_layout"
-        );
         var generalAds = new BlockRule(
             SettingsEnum.ADREMOVER_GENERAL_ADS,
-                "video_display_full_layout",
                 "active_view_display_container",
-                "|ad_",
-                "|ads_",
+                "ads_",
                 "ads_video_with_context",
-                "legal_disclosure_cell",
-                "primetime_promo",
+                "ad_",
+                "banner_text_icon",
                 "brand_video_shelf",
+                "brand_video_singleton",
+                "carousel_footered_layout",
+                "carousel_headered_layout",
+                "full_width_square_image_layout",
                 "hero_promo_image",
-                "statement_banner",
+                "landscape_image_wide_button_layout",
+                "legal_disclosure_cell",
+                "lumiere_promo_carousel",
+                "primetime_promo",
+                "product_details",
                 "square_image_layout",
-                "watch_metadata_app_promo"
+                "statement_banner",
+                "text_image_button_group_layout",
+                "text_image_button_layout",
+                "video_display_button_group_layout",
+                "video_display_carousel_buttoned_layout",
+                "video_display_full_layout",
+                "watch_metadata_app_promo",
+                "_ad",
+                "_ads",
+                "_ad_with",
+                "_buttoned_layout",
+                "|ads_",
+                "|ad_"
         );
         var movieAds = new BlockRule(
                 SettingsEnum.ADREMOVER_MOVIE_SHELF,
@@ -72,7 +90,6 @@ public final class GeneralAdsPatch extends Filter {
         );
 
         this.pathRegister.registerAll(
-                buttonedAd,
                 channelGuidelines,
                 channelMemberShelf,
                 chapterTeaser,

@@ -1,7 +1,6 @@
 package app.revanced.integrations.patches.video;
 
 import app.revanced.integrations.settings.SettingsEnum;
-import app.revanced.integrations.whitelist.Whitelist;
 
 public class VideoSpeedPatch {
 
@@ -19,7 +18,6 @@ public class VideoSpeedPatch {
         float defaultSpeed = SettingsEnum.DEFAULT_VIDEO_SPEED.getFloat();
 
         newVideo = false;
-        if (Whitelist.isChannelSPEEDWhitelisted()) defaultSpeed = 1.0f;
 
         if (defaultSpeed == -2.0f) return -1.0f;
         else if (!isCustomVideoSpeedEnabled() && defaultSpeed >= 2.0f) defaultSpeed = 2.0f;

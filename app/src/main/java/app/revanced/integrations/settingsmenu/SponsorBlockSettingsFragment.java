@@ -33,7 +33,6 @@ import app.revanced.integrations.sponsorblock.SponsorBlockUtils;
 import app.revanced.integrations.sponsorblock.objects.EditTextListPreference;
 import app.revanced.integrations.sponsorblock.requests.SBRequester;
 import app.revanced.integrations.utils.SharedPrefHelper;
-import app.revanced.integrations.whitelist.WhitelistType;
 
 public class SponsorBlockSettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     public static final DecimalFormat FORMATTER = new DecimalFormat("#,###,###");
