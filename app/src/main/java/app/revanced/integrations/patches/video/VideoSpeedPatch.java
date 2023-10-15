@@ -6,7 +6,7 @@ public class VideoSpeedPatch {
 
     private static boolean newVideo = false;
     private static boolean userChangedSpeed = false;
-    private static String currentVideoId;
+    private static String currentContentCpn;
 
     public static void userChangedSpeed(float speed) {
         userChangedSpeed = true;
@@ -25,9 +25,10 @@ public class VideoSpeedPatch {
         return defaultSpeed;
     }
 
-    public static void newVideoStarted(String videoId) {
-        if (videoId.equals(currentVideoId)) return;
-        currentVideoId = videoId;
+    public static void newVideoStarted(final String contentCpn, final boolean isLive) {
+        if (contentCpn.isEmpty() || contentCpn.equals(currentContentCpn))
+            return;
+        currentContentCpn = contentCpn;
         newVideo = true;
         userChangedSpeed = false;
     }
