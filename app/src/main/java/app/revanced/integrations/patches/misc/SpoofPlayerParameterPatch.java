@@ -1,212 +1,187 @@
 package app.revanced.integrations.patches.misc;
 
+import static app.revanced.integrations.patches.misc.requests.StoryBoardRendererRequester.getStoryboardRenderer;
 import static app.revanced.integrations.utils.ReVancedUtils.containsAny;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import app.revanced.integrations.settings.SettingsEnum;
 import app.revanced.integrations.shared.PlayerType;
 import app.revanced.integrations.utils.LogHelper;
+import app.revanced.integrations.utils.ReVancedUtils;
 
+/**
+ * @noinspection ALL
+ */
 public class SpoofPlayerParameterPatch {
 
     /**
-     * Target Protobuf parameters.
+     * Parameter (also used by
+     * <a href="https://github.com/yt-dlp/yt-dlp/blob/81ca451480051d7ce1a31c017e005358345a9149/yt_dlp/extractor/youtube.py#L3602">yt-dlp</a>)
+     * to fix playback issues.
      */
-    private static final String[] PROTOBUF_PARAMETER_WHITELIST = {
+    private static final String INCOGNITO_PARAMETERS = "CgIQBg==";
+
+    /**
+     * Parameters causing playback issues.
+     */
+    private static final String[] AUTOPLAY_PARAMETERS = {
             "YAHI", // Autoplay in feed
             "SAFg"  // Autoplay in scrim
     };
 
     /**
-     * On app first start, the first video played usually contains a single non-default window setting value
-     * and all other subtitle settings for the video are (incorrect) default shorts window settings.
-     * For this situation, the shorts settings must be replaced.
+     * Parameter used for autoplay in scrim.
+     * Prepend this parameter to mute video playback (for autoplay in feed).
+     */
+//    private static final String SCRIM_PARAMETER = "SAFgAXgB";
+
+    /**
+     * Parameters used in YouTube Shorts.
+     */
+    private static final String SHORTS_PLAYER_PARAMETERS = "8AEB";
+
+    /**
+     * Last video id loaded. Used to prevent reloading the same spec multiple times.
+     */
+    private static volatile String lastPlayerResponseVideoId;
+
+    private static volatile Future<StoryboardRenderer> rendererFuture;
+
+    private static volatile boolean originalStoryboardRenderer;
+
+
+    /**
+     * Injection point.
      * <p>
-     * But some videos use multiple text positions on screen (such as youtu.be/3hW1rMNC89o),
-     * and by chance many of the subtitles uses window positions that match a default shorts position.
-     * To handle these videos, selectively allowing the shorts specific window settings to 'pass thru' unchanged,
-     * but only if the video contains multiple non-default subtitle window positions.
-     * <p>
-     * Do not enable 'pass thru mode' until this many non default subtitle settings are observed for a single video.
+     * {@link VideoInformation#getVideoId()} cannot be used because it is injected after PlayerResponse.
+     * Therefore, we use the videoId called from PlaybackStartDescriptor.
+     *
+     * @param videoId    Original video id value.
+     * @param parameters Original player parameter value.
      */
-    private static final int NUMBER_OF_NON_DEFAULT_SUBTITLES_BEFORE_ENABLING_PASSTHRU = 2;
+    public static String spoofParameter(String videoId, String parameters) {
+        //LogHelper.printDebug(SpoofPlayerParameterPatch.class, "Original player parameter value: " + parameters);
 
-    /**
-     * Player parameters parameters used in autoplay in scrim
-     * Prepend this parameter to mute video playback (for autoplay in feed)
-     */
-    private static final String PLAYER_PARAMETER_SCRIM = "SAFgAXgB";
+        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean()) {
+            return parameters;
+        }
 
-    /**
-     * Player parameters parameters used in shorts and stories.
-     * Known issue: channel watermark is hidden.
-     * Known issue: end screen cards are hidden.
-     * Known issue: downloading videos may not work.
-     */
-    private static final String PLAYER_PARAMETER_SHORTS = "8AEB";
+        // Shorts do not need to be spoofed.
+        if (originalStoryboardRenderer = parameters.startsWith(SHORTS_PLAYER_PARAMETERS)) {
+            return parameters;
+        }
 
-    /**
-     * Player parameters used in incognito mode's visitor data.
-     * Known issue: ambient mode may not work.
-     * Known issue: downloading videos may not work.
-     * Known issue: seekbar thumbnails are hidden.
-     */
-    private static final String PLAYER_PARAMETER_INCOGNITO = "CgIQBg==";
+        // Clip's player parameters contain important information such as where the video starts, where it ends, and whether it loops.
+        // For this reason, the player parameters of a clip are usually very long (150~300 characters).
+        // Clips are 60 seconds or less in length, so no spoofing.
+        if (originalStoryboardRenderer = parameters.length() > 150) {
+            return parameters;
+        }
 
-    /**
-     * The number of non default subtitle settings encountered for the current video.
-     */
-    private static int numberOfNonDefaultSettingsObserved;
+        final boolean isPlayingFeed = PlayerType.getCurrent() == PlayerType.INLINE_MINIMAL && containsAny(parameters, AUTOPLAY_PARAMETERS);
+
+        // Autoplay in feed should not be spoofed to avoid wrong recorded watch history
+        if (originalStoryboardRenderer = isPlayingFeed) {
+            return parameters;
+        }
+
+        // StoryboardRenderer is always empty when playing video with INCOGNITO_PARAMETERS parameter.
+        // Fetch StoryboardRenderer without parameter.
+        fetchStoryboardRenderer(videoId);
+        // Spoof the player parameter to prevent playback issues.
+        return INCOGNITO_PARAMETERS;
+    }
+
+    private static void fetchStoryboardRenderer(String videoId) {
+        if (!videoId.equals(lastPlayerResponseVideoId)) {
+            rendererFuture = ReVancedUtils.submitOnBackgroundThread(() -> getStoryboardRenderer(videoId));
+            lastPlayerResponseVideoId = videoId;
+        }
+        // Block until the fetch is completed.  Without this, occasionally when a new video is opened
+        // the video will be frozen a few seconds while the audio plays.
+        // This is because the main thread is calling to get the storyboard but the fetch is not completed.
+        // To prevent this, call get() here and block until the fetch is completed.
+        // So later when the main thread calls to get the renderer it will never block as the future is done.
+        getRenderer();
+    }
+
     @Nullable
-    private static String currentVideoId;
-
-    /**
-     * Injection point.
-     *
-     * @param originalValue originalValue player parameter
-     */
-    public static String overridePlayerParameter(String originalValue) {
-        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean()
-                || originalValue.startsWith(PLAYER_PARAMETER_SHORTS)
-                || originalValue.contains(PLAYER_PARAMETER_INCOGNITO)) {
-            return originalValue;
-        }
-
-        boolean isPlayingFeed = containsAny(originalValue, PROTOBUF_PARAMETER_WHITELIST) && PlayerType.getCurrent() == PlayerType.INLINE_MINIMAL;
-        boolean spoofToIncognito = SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean();
-
-        if (spoofToIncognito && isPlayingFeed) {
-            return originalValue;  // autoplay in feed should not be recorded on watch history
-        } else if (spoofToIncognito) {
-            return PLAYER_PARAMETER_INCOGNITO;
-        } else if (isPlayingFeed) {
-            return PLAYER_PARAMETER_SCRIM + PLAYER_PARAMETER_SHORTS;  // autoplay in feed should not play a sound
-        } else {
-            return PLAYER_PARAMETER_SHORTS;
-        }
-    }
-
-
-    // ================================================================
-    //       ↓ workarounds for PLAYER_PARAMETER_SHORTS ↓
-    // ================================================================
-    /**
-     * Injection point.  Overrides values passed into SubtitleWindowSettings constructor.
-     *
-     * @param ap anchor position. A bitmask with 6 bit fields, that appears to indicate the layout position on screen
-     * @param ah anchor horizontal. A percentage [0, 100], that appears to be a horizontal text anchor point
-     * @param av anchor vertical. A percentage [0, 100], that appears to be a vertical text anchor point
-     * @param vs appears to indicate if subtitles exist, and the value is always true.
-     * @param sd function is not entirely clear
-     */
-    public static int[] getSubtitleWindowSettingsOverride(int ap, int ah, int av, boolean vs, boolean sd) {
-        // Videos with custom captions that specify screen positions appear to always have correct screen positions (even with spoofing).
-        // But for auto generated and most other captions, the spoof incorrectly gives various default Shorts caption settings.
-        // Check for these known default shorts captions parameters, and replace with the known correct values.
-        //
-        // If a regular video uses a custom subtitle setting that match a default short setting,
-        // then this will incorrectly replace the setting.
-        // But, if the video uses multiple subtitles in different screen locations, then detect the non-default values
-        // and do not replace any window settings for the video (regardless if they match a shorts default).
-        if (SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean()
-                && !SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean()  // spoofing type is shorts
-                && !PlayerType.getCurrent().isNoneOrHidden()  // video is not a Short or Story
-                && numberOfNonDefaultSettingsObserved < NUMBER_OF_NON_DEFAULT_SUBTITLES_BEFORE_ENABLING_PASSTHRU) {
-            for (SubtitleWindowReplacementSettings setting : SubtitleWindowReplacementSettings.values()) {
-                if (setting.match(ap, ah, av, vs, sd))
-                    return setting.replacementSetting();
+    private static StoryboardRenderer getRenderer() {
+        if (rendererFuture != null) {
+            try {
+                return rendererFuture.get(5000, TimeUnit.MILLISECONDS);
+            } catch (TimeoutException ex) {
+                //printDebug(SpoofPlayerParameterPatch.class, "Could not get renderer (get timed out)");
+            } catch (ExecutionException | InterruptedException ex) {
+                // Should never happen.
+                LogHelper.printException(SpoofPlayerParameterPatch.class, "Could not get renderer", ex);
             }
-
-            numberOfNonDefaultSettingsObserved++;
         }
-
-        return new int[]{ap, ah, av};
+        return null;
     }
 
-    /**
-     * Injection point.
-     */
-    public static void setCurrentVideoId(@NonNull String videoId) {
-        try {
-            if (videoId.equals(currentVideoId)) {
-                return;
-            }
-            currentVideoId = videoId;
-            numberOfNonDefaultSettingsObserved = 0;
-        } catch (Exception ex) {
-            LogHelper.printException(SpoofPlayerParameterPatch.class, "setCurrentVideoId failure", ex);
-        }
-    }
-
-    /**
-     * Known incorrect default Shorts subtitle parameters, and the corresponding correct (non-Shorts) values.
-     */
-    private enum SubtitleWindowReplacementSettings {
-        DEFAULT_SHORTS_PARAMETERS_1(10, 50, 0, true, false,
-                34, 50, 95),
-        DEFAULT_SHORTS_PARAMETERS_2(9, 20, 0, true, false,
-                34, 50, 90),
-        DEFAULT_SHORTS_PARAMETERS_3(9, 20, 0, true, true,
-                33, 20, 100);
-
-        // original values
-        final int ap, ah, av;
-        final boolean vs, sd;
-
-        // replacement int values
-        final int[] replacement;
-
-        SubtitleWindowReplacementSettings(int ap, int ah, int av, boolean vs, boolean sd,
-                                          int replacementAp, int replacementAh, int replacementAv) {
-            this.ap = ap;
-            this.ah = ah;
-            this.av = av;
-            this.vs = vs;
-            this.sd = sd;
-            this.replacement = new int[]{replacementAp, replacementAh, replacementAv};
-        }
-
-        boolean match(int ap, int ah, int av, boolean vs, boolean sd) {
-            return this.ap == ap && this.ah == ah && this.av == av && this.vs == vs && this.sd == sd;
-        }
-
-        int[] replacementSetting() {
-            return replacement;
-        }
-    }
-
-
-    // ================================================================
-    //       ↓ workarounds for PLAYER_PARAMETER_INCOGNITO ↓
-    // ================================================================
     /**
      * Injection point.
      */
     public static boolean getSeekbarThumbnailOverrideValue() {
-        return SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() && SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean();
+        return SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean();
     }
 
     /**
      * Injection point.
-     *
-     * @param view seekbar thumbnail view.  Includes both shorts and regular videos.
+     * Called from background threads and from the main thread.
      */
-    public static void seekbarImageViewCreated(ImageView view) {
-        try {
-            if (SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() && SettingsEnum.SPOOF_PLAYER_PARAMETER_TYPE.getBoolean()) {
-                view.setVisibility(View.GONE);
-                // Also hide the white border around the thumbnail (otherwise a 1 pixel wide bordered frame is visible).
-                ViewGroup parentLayout = (ViewGroup) view.getParent();
-                parentLayout.setPadding(0, 0, 0, 0);
-            }
-        } catch (Exception ex) {
-            LogHelper.printException(SpoofPlayerParameterPatch.class, "seekbarImageViewCreated failure", ex);
+    @Nullable
+    public static String getStoryboardRendererSpec() {
+        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() || originalStoryboardRenderer)
+            return null;
+
+        StoryboardRenderer renderer = getRenderer();
+        if (renderer != null)
+            return renderer.getSpec();
+
+        return null;
+    }
+
+    /**
+     * Injection point.
+     * <p>
+     * This method is only injected into methods that create storyboards in the live stream.
+     * In this case, this value should be null in the live stream.
+     */
+    @Nullable
+    public static String getStoryboardRendererSpec(String originalStoryboardRendererSpec) {
+        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() || originalStoryboardRenderer)
+            return originalStoryboardRendererSpec;
+
+        StoryboardRenderer renderer = getRenderer();
+        if (renderer != null) {
+            return renderer.isLiveStream() ? null : renderer.getSpec();
         }
+
+        return originalStoryboardRendererSpec;
+    }
+
+    /**
+     * Injection point.
+     */
+    public static int getRecommendedLevel(int originalLevel) {
+        if (!SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean() || originalStoryboardRenderer)
+            return originalLevel;
+
+        StoryboardRenderer renderer = getRenderer();
+        if (renderer != null) {
+            Integer recommendedLevel = renderer.getRecommendedLevel();
+            if (recommendedLevel != null)
+                return recommendedLevel;
+        }
+
+        return originalLevel;
     }
 }
