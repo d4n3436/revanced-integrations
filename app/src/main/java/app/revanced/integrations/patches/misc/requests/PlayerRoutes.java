@@ -30,8 +30,8 @@ final class PlayerRoutes {
 
             JSONObject client = new JSONObject();
             client.put("clientName", "ANDROID");
-            client.put("clientVersion", "17.34.36");
-            client.put("androidSdkVersion", 25);
+            client.put("clientVersion", "16.40.36");
+            client.put("androidSdkVersion", 22);
 
             context.put("client", client);
 
@@ -77,7 +77,7 @@ final class PlayerRoutes {
      */
     static HttpURLConnection getPlayerResponseConnectionFromRoute(Route.CompiledRoute route) throws IOException {
         var connection = Requester.getConnectionFromCompiledRoute(YT_API_URL, route);
-        connection.setRequestProperty("User-Agent", "com.google.android.youtube/17.34.36 (Linux; U; Android 7.1.1; GB) gzip");
+        connection.setRequestProperty("User-Agent", "com.google.android.youtube/16.40.36 (Linux; U; Android 5.1; GB) gzip");
         connection.setRequestProperty("X-Goog-Api-Format-Version", "2");
         connection.setRequestProperty("Content-Type", "application/json");
 
