@@ -97,12 +97,12 @@ public final class LithoFilterPatch {
             new CommentsPatch()
     };
 
-    public static boolean filter(final StringBuilder pathBuilder, final String identifier) {
+    public static boolean filter(final StringBuilder pathBuilder) {
         var path = pathBuilder.toString();
         if (path.isEmpty()) return false;
 
         for (var filter : filters) {
-            if (filter.filter(path, identifier)) return true;
+            if (filter.filter(path, null)) return true;
         }
 
         return false;
