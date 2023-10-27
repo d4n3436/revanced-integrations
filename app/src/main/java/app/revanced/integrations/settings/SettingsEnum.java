@@ -170,7 +170,7 @@ public enum SettingsEnum {
     RYD_USE_COMPACT_LAYOUT("ryd_use_compact_layout", true, SharedPrefHelper.SharedPrefNames.RYD, ReturnType.BOOLEAN),
 
     //SponsorBlock Settings
-    SB_ENABLED("sb-enabled", true, SharedPrefHelper.SharedPrefNames.SPONSOR_BLOCK, ReturnType.BOOLEAN),
+    SB_ENABLED("sb-enabled", false, SharedPrefHelper.SharedPrefNames.SPONSOR_BLOCK, ReturnType.BOOLEAN),
     SB_MIRROR_ENABLED("sb-mirror-enabled", false, SharedPrefHelper.SharedPrefNames.SPONSOR_BLOCK, ReturnType.BOOLEAN),
     SB_SHOW_TOAST_WHEN_SKIP("show-toast", true, SharedPrefHelper.SharedPrefNames.SPONSOR_BLOCK, ReturnType.BOOLEAN),
     SB_COUNT_SKIPS("count-skips", true, SharedPrefHelper.SharedPrefNames.SPONSOR_BLOCK, ReturnType.BOOLEAN),
