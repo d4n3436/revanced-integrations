@@ -52,7 +52,8 @@ public class VideoQualityPatch {
         userChangedQuality = false;
     }
 
-    public static int setVideoQuality(Object[] qualities, int quality, Object qInterface, String qIndexMethod) {
+    public static int setVideoQuality(Object[] qualities, int quality, Object qInterface) {
+        String qIndexMethod = "x";
         int defaultQuality;
         refreshQuality();
 
