@@ -130,7 +130,10 @@ public class SpoofPlayerParameterPatch {
      * Injection point.
      */
     public static boolean getSeekbarThumbnailOverrideValue() {
-        return SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean();
+        // TODO: Fix (16.40.36)
+        // Crashes the app when the seekbar is used on livestreams
+        //return SettingsEnum.SPOOF_PLAYER_PARAMETER.getBoolean();
+        return false;
     }
 
     /**
