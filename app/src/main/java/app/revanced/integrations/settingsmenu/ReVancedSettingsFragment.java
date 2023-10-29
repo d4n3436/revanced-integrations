@@ -264,7 +264,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
         reportPreference.setSummary(str("revanced_extended_issue_center_summary"));
         reportPreference.setOnPreferenceClickListener(pref -> {
             var intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://github.com/kitadai31/revanced-patches-android6-7"));
+            intent.setData(Uri.parse("https://github.com/d4n3436/revanced-patches-android5"));
             pref.getContext().startActivity(intent);
             return false;
         });
@@ -308,7 +308,7 @@ public class ReVancedSettingsFragment extends PreferenceFragment {
     public void setSpoofAppVersionInfo() {
         findPreferenceOnScreen("revanced_spoof_app_version_info")
                 .setIntent(
-                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kitadai31/revanced-patches-android6-7/wiki/Spoof-app-version-information"))
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/d4n3436/revanced-patches-android5/wiki/Spoof-app-version-information"))
                 );
     }
 
