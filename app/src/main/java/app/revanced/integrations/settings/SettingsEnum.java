@@ -39,7 +39,6 @@ public enum SettingsEnum {
     HIDE_CREATE_BUTTON("revanced_hide_create_button", true, ReturnType.BOOLEAN, true),
     HIDE_SHORTS_BUTTON("revanced_hide_shorts_button", true, ReturnType.BOOLEAN, true),
     HIDE_SHORTS_SHELF("revanced_hide_shorts_shelf", true, ReturnType.BOOLEAN),
-    HIDE_STARTUP_SHORTS_PLAYER("revanced_hide_startup_shorts_player", true, ReturnType.BOOLEAN),
     HIDE_SHORTS_PLAYER_COMMENTS_BUTTON("revanced_hide_shorts_player_comments_button", false, ReturnType.BOOLEAN),
     HIDE_SHORTS_PLAYER_REMIX_BUTTON("revanced_hide_shorts_player_remix_button", false, ReturnType.BOOLEAN),
     HIDE_SHORTS_PLAYER_THANKS_BUTTON("revanced_hide_shorts_player_thanks_button", true, ReturnType.BOOLEAN),
@@ -97,7 +96,6 @@ public enum SettingsEnum {
     // Layout settings (Fullscreen)
     HIDE_FULLSCREEN_PANELS("revanced_hide_fullscreen_panels", true, ReturnType.BOOLEAN, true),
     HIDE_ENDSCREEN_OVERLAY("revanced_hide_endscreen_overlay", false, ReturnType.BOOLEAN, true),
-    HIDE_FILMSTRIP_OVERLAY("revanced_hide_filmstrip_overlay", false, ReturnType.BOOLEAN, true),
     DISABLE_HAPTIC_FEEDBACK_SEEK("revanced_disable_haptic_feedback_seek", false, ReturnType.BOOLEAN),
     DISABLE_HAPTIC_FEEDBACK_SCRUBBING("revanced_disable_haptic_feedback_scrubbing", false, ReturnType.BOOLEAN),
     DISABLE_HAPTIC_FEEDBACK_CHAPTERS("revanced_disable_haptic_feedback_chapters", false, ReturnType.BOOLEAN),

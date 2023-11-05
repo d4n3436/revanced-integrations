@@ -25,10 +25,6 @@ public class FullscreenLayoutPatch {
         return SettingsEnum.HIDE_ENDSCREEN_OVERLAY.getBoolean();
     }
 
-    public static boolean hideFilmstripOverlay() {
-        return SettingsEnum.HIDE_FILMSTRIP_OVERLAY.getBoolean();
-    }
-
     public static boolean disableLandScapeMode(boolean original) {
         return SettingsEnum.DISABLE_LANDSCAPE_MODE.getBoolean() || original;
     }

@@ -35,10 +35,6 @@ public class GeneralLayoutPatch {
         }
     }
 
-    public static boolean hideStartupShortsPlayer() {
-        return SettingsEnum.HIDE_STARTUP_SHORTS_PLAYER.getBoolean();
-    }
-
     public static void hideShortsPlayerCommentsButton(View view) {
         if (SettingsEnum.HIDE_SHORTS_PLAYER_COMMENTS_BUTTON.getBoolean()) {
             view.setVisibility(View.GONE);
