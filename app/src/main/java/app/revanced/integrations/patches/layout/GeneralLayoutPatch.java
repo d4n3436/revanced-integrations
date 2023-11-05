@@ -13,12 +13,6 @@ public class GeneralLayoutPatch {
     public static boolean captionsButtonStatus;
     public static Enum lastPivotTab;
 
-    public static void hideStoriesShelf(View view) {
-        if (SettingsEnum.HIDE_STORIES_SHELF.getBoolean()) {
-            AdRemoverAPI.HideViewWithLayout1dp(view);
-        }
-    }
-
     public static boolean switchCreateNotification(boolean original) {
         return SettingsEnum.SWITCH_CREATE_NOTIFICATION.getBoolean() || original;
     }
