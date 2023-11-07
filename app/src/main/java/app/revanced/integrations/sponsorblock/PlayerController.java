@@ -72,6 +72,7 @@ public class PlayerController {
         lastKnownVideoTime = 0;
         SkipSegmentView.hide();
         NewSegmentHelperLayout.hide();
+        setCurrentVideoId(null);
     }
 
     public static void executeDownloadSegments(String videoId) {
