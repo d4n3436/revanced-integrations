@@ -54,10 +54,10 @@ public final class GeneralAdsPatch extends Filter {
                 "ads_video_with_context",
                 "ad_",
                 "banner_text_icon",
-                "brand_video_shelf",
-                "brand_video_singleton",
+                "brand_video",
                 "carousel_footered_layout",
                 "carousel_headered_layout",
+                "full_width_portrait_image_layout",
                 "full_width_square_image_layout",
                 "hero_promo_image",
                 "landscape_image_wide_button_layout",
@@ -70,7 +70,7 @@ public final class GeneralAdsPatch extends Filter {
                 "text_image_button_group_layout",
                 "text_image_button_layout",
                 "video_display_button_group_layout",
-                "video_display_carousel_buttoned_layout",
+                "video_display_carousel_button",
                 "video_display_full_layout",
                 "watch_metadata_app_promo",
                 "_ad",
@@ -78,7 +78,8 @@ public final class GeneralAdsPatch extends Filter {
                 "_ad_with",
                 "_buttoned_layout",
                 "|ads_",
-                "|ad_"
+                "|ad_",
+                "_image_layout"
         );
         var movieAds = new BlockRule(
                 SettingsEnum.ADREMOVER_MOVIE_SHELF,
