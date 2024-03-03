@@ -141,8 +141,6 @@ public enum SettingsEnum {
     DEFAULT_VIDEO_SPEED("revanced_default_video_speed", -2.0f, ReturnType.FLOAT),
     ENABLE_SAVE_VIDEO_QUALITY("revanced_enable_save_video_quality", false, ReturnType.BOOLEAN),
     ENABLE_CUSTOM_VIDEO_SPEED("revanced_enable_custom_video_speed", false, ReturnType.BOOLEAN, true),
-    ENABLE_SHORTS_SEEK("revanced_enable_shorts_seek", true, ReturnType.BOOLEAN),
-    SHORTS_SEEK_AMOUNT("revanced_shorts_seek_amount", false, ReturnType.BOOLEAN),
 
     //Overlaybutton Settings
     OVERLAY_BUTTON_COPY("revanced_overlay_button_copy_url", false, ReturnType.BOOLEAN),
