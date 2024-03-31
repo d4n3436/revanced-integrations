@@ -19,7 +19,7 @@ public class VersionOverridePatch {
             if (!versionToSpoof.isEmpty()) {
                 return versionToSpoof;
             } else {
-                return version;
+                return "17.33.42";
             }
         } catch (Exception ex){
             LogHelper.printException(VersionOverridePatch.class, "Failed to getBoolean", ex);
