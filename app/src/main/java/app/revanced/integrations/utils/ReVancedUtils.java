@@ -4,13 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import java.text.Bidi;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -83,38 +79,6 @@ public class ReVancedUtils {
         return isRightToLeftTextLayout;
     }
 
-    public static void showToastShort(Context context, String messageToToast) {
-        showToast(context, messageToToast, Toast.LENGTH_SHORT);
-    }
-
-    public static void showToastLong(Context context, String messageToToast) {
-        showToast(context, messageToToast, Toast.LENGTH_LONG);
-    }
-
-    /**
-     * Safe to call from any thread
-     */
-    public static void showToastShort(@NonNull String messageToToast) {
-        showToast(context, messageToToast, Toast.LENGTH_SHORT);
-    }
-
-    /**
-     * Safe to call from any thread
-     */
-    public static void showToastLong(@NonNull String messageToToast) {
-        showToast(context, messageToToast, Toast.LENGTH_LONG);
-    }
-
-    private static void showToast(Context context, @NonNull String messageToToast, int toastDuration) {
-        Objects.requireNonNull(messageToToast);
-        runOnMainThreadNowOrLater(() -> {
-                    // cannot use getContext(), otherwise if context is null it will cause infinite recursion of error logging
-                    assert context != null;
-                    Toast.makeText(context, messageToToast, toastDuration).show();
-                }
-        );
-    }
-
     /**
      * Automatically logs any exceptions the runnable throws
      */
@@ -134,18 +98,6 @@ public class ReVancedUtils {
             }
         };
         new Handler(Looper.getMainLooper()).postDelayed(loggingRunnable, delayMillis);
-    }
-
-    /**
-     * If called from the main thread, the code is run immediately.<p>
-     * If called off the main thread, this is the same as {@link #runOnMainThread(Runnable)}.
-     */
-    public static void runOnMainThreadNowOrLater(@NonNull Runnable runnable) {
-        if (currentlyIsOnMainThread()) {
-            runnable.run();
-        } else {
-            runOnMainThread(runnable);
-        }
     }
 
     /**

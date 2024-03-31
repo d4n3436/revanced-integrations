@@ -13,7 +13,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 
-import app.revanced.integrations.patches.utils.ReturnYouTubeDislikePatch;
 import app.revanced.integrations.returnyoutubedislike.ReturnYouTubeDislike;
 import app.revanced.integrations.settings.SettingsEnum;
 import app.revanced.integrations.utils.SharedPrefHelper;
@@ -68,7 +67,7 @@ public class ReturnYouTubeDislikeSettingsFragment extends PreferenceFragment {
         enabledPreference.setOnPreferenceChangeListener((pref, newValue) -> {
             final boolean rydIsEnabled = (Boolean) newValue;
             SettingsEnum.RYD_ENABLED.saveValue(rydIsEnabled);
-            ReturnYouTubeDislikePatch.onRYDStatusChange(rydIsEnabled);
+            ReturnYouTubeDislike.onEnabledChange(rydIsEnabled);
 
             updateUIState();
             return true;
