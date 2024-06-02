@@ -162,7 +162,6 @@ public enum SettingsEnum {
     ENABLE_PHONE_LAYOUT("revanced_enable_phone_layout", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_phone"),
     ENABLE_VP9_CODEC("revanced_enable_vp9_codec", false, ReturnType.BOOLEAN, true, "revanced_reboot_warning_vp9"),
     SPOOF_APP_VERSION_TARGET("revanced_spoof_app_version_target", "", ReturnType.STRING, true),
-    SPOOF_PLAYER_PARAMETER("revanced_spoof_player_parameter", true, ReturnType.BOOLEAN, true),
 
     //RYD Settings
     RYD_USER_ID("ryd_userId", null, SharedPrefHelper.SharedPrefNames.RYD, ReturnType.STRING),
