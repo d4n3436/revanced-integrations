@@ -50,7 +50,7 @@ dependencies {
     implementation("androidx.core:core:1.0.0")
     implementation("androidx.appcompat:appcompat:1.0.0")
     compileOnly(project(mapOf("path" to ":dummy")))
-    compileOnly("androidx.annotation:annotation:1.8.0")
+    compileOnly("androidx.annotation:annotation:1.0.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
 }
 
