@@ -7,8 +7,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
 
-public class CheckOsVersionPatch {
-    public static void checkOsVersion(Context context) {
+public class CheckAndroidVersionPatch {
+    public static void checkAndroidVersion(Context context) {
         if (Build.VERSION.SDK_INT < 23) return;  // No problem!
 
         // show warning
